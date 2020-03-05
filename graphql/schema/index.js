@@ -12,12 +12,12 @@ type temperature {
 }
 
 type RootQuery {
-    led(order: String!, pin: String!, data: String): ledData!
+    ledRead(order: String!, pin: String!): ledData!
     temperature: temperature!
 }
 
 type RootMutation {
-    led(order: String!, pin: String!, data: String): ledData!
+    ledWrite(order: String!, pin: String!, data: String): ledData!
 }
 
 schema {

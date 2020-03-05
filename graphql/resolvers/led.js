@@ -1,10 +1,11 @@
-const serial = require("../../middleware/serialWrite");
+const serialWrite = require("../../middleware/serialWrite");
+const serialRead = require("../../middleware/serialRead");
 
 module.exports = {
-   led: async (args, req) => {
+   ledWrite: async (args, req) => {
 
       //console.log(args.ledState.state)
-      const sendFrame = await serial.serialWrite(
+      const sendFrame = await serialWrite.serialWrite(
          process.env.START_CHAR,
          process.env.ARDUINO_ID,
          args.order,
@@ -17,6 +18,19 @@ module.exports = {
          pin: sendFrame.pin,
          data: sendFrame.data
       }
-
    },
+   ledRead: async (args, req) => {
+      const sendFrame = await serialRead.serialRead(
+         process.env.START_CHAR,
+         process.env.ARDUINO_ID,
+         args.order,
+         args.pin,
+         process.env.END_CHAR
+      );
+
+      return {
+         pin: sendFrame.pin,
+         data: sendFrame.data
+      }
+   }
 };
