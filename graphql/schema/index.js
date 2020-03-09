@@ -6,6 +6,12 @@ type ledData {
     data: String!
 }
 
+type rgbColor {
+    r: String!
+    g: String!
+    b: String!
+}
+
 type temperature {
     temperature: String!,
     ds18b20Id: [String!]!
@@ -18,6 +24,7 @@ type RootQuery {
 
 type RootMutation {
     ledWrite(order: String!, pin: String!, data: String): ledData!
+    rgbWrite(rgbColor: String!): rgbColor!
 }
 
 schema {

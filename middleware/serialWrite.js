@@ -39,7 +39,7 @@ exports.serialWrite = (startChar, arduinoIndexSend, orderSend, pinNumberSend, da
     tmpCrc = tmpCrc.toString(16).toUpperCase();
 
     frame += tmpCrc + endChar;
-
+    console.log(frame);
     port.write(frame);
 
     return {
