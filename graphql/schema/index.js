@@ -1,30 +1,38 @@
 const buildSchema = require("graphql").buildSchema;
 
 module.exports = buildSchema(`
-type ledData {
+type LedData {
     pin: String!
     data: String!
 }
 
-type rgbColor {
+type RgbColor {
     r: String!
     g: String!
     b: String!
 }
 
-type temperature {
+type Temperature {
     temperature: String!,
-    ds18b20Id: [String!]!
+    ds18b20Id: String!,
+    date: String!
+}
+
+input TemperatureInput {
+    temperature: String!,
+    ds18b20Id: [String!]!,
+    date: String!
 }
 
 type RootQuery {
-    ledRead(order: String!, pin: String!): ledData!
-    temperature: temperature!
+    ledRead(order: String!, pin: String!): LedData!
+    currentTemperature: Temperature!
+    trendTemps: [Temperature!]!
 }
 
 type RootMutation {
-    ledWrite(order: String!, pin: String!, data: String): ledData!
-    rgbWrite(rgbColor: String!): rgbColor!
+    ledWrite(order: String!, pin: String!, data: String): LedData!
+    rgbWrite(RgbColor: String!): RgbColor!
 }
 
 schema {

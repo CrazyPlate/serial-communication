@@ -2,9 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const graphqlHTTP = require("express-graphql");
 const mongoose = require("mongoose");
+const sensor = require('ds18b20-raspi');
 
 const graphQlSchema = require("./graphql/schema/index");
 const graphQlResolver = require("./graphql/resolvers/index");
+
+const Temperature = require("./graphql/models/Temperature")
 
 const app = express();
 
@@ -19,6 +22,23 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+saveTemp = () => {
+    const tempC = sensor.readSimpleC(2);
+    const list = sensor.list();
+
+    const temperature = new Temperature({
+        temperature: tempC,
+        ds18b20Id: list[0],
+        date: new Date().toISOString()
+    });
+
+    temperature.save();
+
+    setTimeout(saveTemp, 600000);
+}
+
+app.get("/temp", saveTemp);
 
 app.use(
     "/graphql",
