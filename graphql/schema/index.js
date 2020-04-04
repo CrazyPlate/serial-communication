@@ -18,6 +18,11 @@ type Temperature {
     date: String!
 }
 
+type Humidity {
+    humidity: String!
+    date: String!
+}
+
 input TemperatureInput {
     temperature: String!,
     ds18b20Id: [String!]!,
@@ -27,6 +32,7 @@ input TemperatureInput {
 type RootQuery {
     ledRead(order: String!, pin: String!): LedData!
     currentTemperature: Temperature!
+    currentHumidity: Humidity!
     trendTemps: [Temperature!]!
 }
 
