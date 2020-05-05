@@ -23,6 +23,11 @@ type Humidity {
     date: String!
 }
 
+type Modbus {
+    register: Int!
+    data: String
+}
+
 input TemperatureInput {
     temperature: String!,
     ds18b20Id: [String!]!,
@@ -34,6 +39,7 @@ type RootQuery {
     currentTemperature: Temperature!
     currentHumidity: Humidity!
     trendTemps: [Temperature!]!
+    modbus(adress: Int!, order: Int!, register: Int!, data: String!): Modbus!
 }
 
 type RootMutation {

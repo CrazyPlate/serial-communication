@@ -9,7 +9,7 @@
 
 const SerialPort = require('serialport');
 
-const port = new SerialPort('/dev/ttyUSB0');
+const port = new SerialPort('/dev/ttyUSB1');
 
 const startChar = ':';
 const endChar = '&';

@@ -1,6 +1,6 @@
 const SerialPort = require('serialport');
 
-const port = new SerialPort('/dev/ttyUSB0');
+const port = new SerialPort('/dev/ttyUSB1');
 
 exports.serialRead = (startChar, arduinoIndexSend, orderSend, pinNumberSend, endChar) => {
     port.on('data', function (data) {
