@@ -4,7 +4,6 @@ const serialRead = require("../../middleware/serialRead");
 module.exports = {
    ledWrite: async (args, req) => {
 
-      //console.log(args.ledState.state)
       const sendFrame = await serialWrite.serialWrite(
          process.env.START_CHAR,
          process.env.ARDUINO_ID,

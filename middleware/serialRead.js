@@ -1,10 +1,9 @@
 const SerialPort = require('serialport');
 
-const port = new SerialPort('/dev/ttyUSB1');
+const port = new SerialPort(process.env.ARDUINO_PATH);
 
 exports.serialRead = (startChar, arduinoIndexSend, orderSend, pinNumberSend, endChar) => {
     port.on('data', function (data) {
-        console.log("ABC", data);
     })
     /* port.on("open", function () {
         let receivedFrame = "";

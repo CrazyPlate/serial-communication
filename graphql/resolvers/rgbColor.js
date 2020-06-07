@@ -2,13 +2,12 @@ const serialWrite = require("../../middleware/serialWrite");
 
 module.exports = {
     rgbWrite: async (args, req) => {
-
         const sendFrame = await serialWrite.serialWrite(
             process.env.START_CHAR,
             process.env.ARDUINO_ID,
             'W',
             '20',
-            args.rgbColor,
+            args.RGB,
             process.env.END_CHAR
         );
 

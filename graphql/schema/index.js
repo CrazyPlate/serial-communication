@@ -26,6 +26,7 @@ type Humidity {
 type Modbus {
     register: Int!
     data: String
+    date: String!
 }
 
 input TemperatureInput {
@@ -39,12 +40,12 @@ type RootQuery {
     currentTemperature: Temperature!
     currentHumidity: Humidity!
     trendTemps: [Temperature!]!
-    modbus(adress: Int!, order: Int!, register: Int!, data: String!): Modbus!
+    modbus: Modbus!
 }
 
 type RootMutation {
     ledWrite(order: String!, pin: String!, data: String): LedData!
-    rgbWrite(RgbColor: String!): RgbColor!
+    rgbWrite(RGB: String!): RgbColor!
 }
 
 schema {

@@ -1,6 +1,6 @@
 const SerialPort = require('serialport');
 
-const port = new SerialPort('/dev/ttyUSB1');
+const port = new SerialPort(process.env.ARDUINO_PATH);
 
 exports.serialWrite = (startChar, arduinoIndexSend, orderSend, pinNumberSend, dataSend, endChar) => {
     let tmpCrc = 0;
@@ -39,7 +39,6 @@ exports.serialWrite = (startChar, arduinoIndexSend, orderSend, pinNumberSend, da
     tmpCrc = tmpCrc.toString(16).toUpperCase();
 
     frame += tmpCrc + endChar;
-    console.log(frame);
     port.write(frame);
 
     return {

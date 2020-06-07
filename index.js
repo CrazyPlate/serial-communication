@@ -3,11 +3,14 @@ const bodyParser = require("body-parser");
 const graphqlHTTP = require("express-graphql");
 const mongoose = require("mongoose");
 const sensor = require('ds18b20-raspi');
+const ModbusRTU = require("modbus-serial");
+const client = new ModbusRTU();
 
 const graphQlSchema = require("./graphql/schema/index");
 const graphQlResolver = require("./graphql/resolvers/index");
 
 const Temperature = require("./graphql/models/Temperature")
+const Modbus = require("./graphql/models/Modbus")
 
 const app = express();
 
@@ -36,8 +39,40 @@ saveTemp = () => {
     temperature.save();
 
     setTimeout(saveTemp, 600000);
-}
+};
 
+const saveModbus = async (req, res) => {
+    try {
+        await client.connectRTUBuffered(process.env.MODBUS_PATH, { baudRate: 19200 });
+
+        await client.setID(Number(req.params.address));
+
+        let val = await client.readHoldingRegisters(Number(req.params.register), 1);
+
+        const modbus = new Modbus({
+            register: String(req.params.register),
+            data: String(val.data[0]),
+            date: new Date().toISOString()
+        })
+
+        res.send({
+            register: modbus.register,
+            data: modbus.data,
+            status: 'OK'
+        });
+
+        await modbus.save();
+    } catch (err) {
+        res.send({
+            status: 'error'
+        });
+        console.log(err);
+    }
+
+    await client.close();
+};
+
+app.get("/modbus/adr:address/reg:register", saveModbus);
 app.get("/temp", saveTemp);
 
 app.use(
