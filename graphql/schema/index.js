@@ -18,6 +18,12 @@ type Temperature {
     date: String!
 }
 
+type Energy {
+    energy: String!,
+    power: String!,
+    date: String!,
+}
+
 type Humidity {
     humidity: String!
     date: String!
@@ -40,12 +46,14 @@ type RootQuery {
     currentTemperature: Temperature!
     currentHumidity: Humidity!
     trendTemps: [Temperature!]!
+    trendEnergy: [Energy!]!
     modbus: Modbus!
 }
 
 type RootMutation {
     ledWrite(order: String!, pin: String!, data: String): LedData!
     rgbWrite(RGB: String!): RgbColor!
+    saveEnergy(energy: String!, power: String!, date: String!): Energy!
 }
 
 schema {
